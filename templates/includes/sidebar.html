@@ -1,0 +1,6 @@
+<ul class="list-group list-group-flush">
+    <li class="list-group-item"><h5>Category</h5></li>
+    {% for category in links %}
+        <li class="list-group-item"><a href="{% url 'category' slug=category.slug %}">{{ category.category_name }}</a></li>
+    {% endfor %}
+</ul>

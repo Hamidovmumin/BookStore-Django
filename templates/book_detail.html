@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+			<div class="row">
+
+				<div class="col-sm-12">
+					<div class="row">
+
+						<div class="col-sm-3">
+							<div class="grid-item">
+								<div class="view-details" style="cursor:pointer">
+									<img id="product_image" class="lookInsideImg" src="{{book.images.url}}">
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-sm-6">
+							<div class="product-information">
+								<h4>{{ book.name }}</h4>
+								<p style="margin: 0px">by <a style="font-weight:bold" href="{% url 'writer' book.id %}">{{ book.writer }}</a></p>
+
+								<div class='rating'>
+									<a href='#getreview'><span class='totalrating'>{{ book.totalreview|add:-1 }} Reviews</span></a>
+								</div>
+
+								<article class="text-justify" style="margin-top:10px;">
+									{{ book.description }}
+								</article>
+							</div>
+						</div>
+
+						<div class="col-sm-3">
+							<div class="pricebox">
+								<p>Price: Tk. <span> {{ book.price }}</span></p>
+								<a href="{% url 'add_cart' book.id %}" class="btn btn-warning" > >
+									<i class="fa fa-shopping-cart"></i>Add to cart
+								</a>
+							</div>
+						</div>
+
+					</div>	
+				</div>
+
+			    <div class="col-sm-9 mt-5" id="getreview">
+					{% if messages %}
+						<div class="messages">
+						    {% for message in messages %}
+						    <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+						    {% endfor %}
+						</div>
+					{% endif %}	
+					<div class="rating-stars text-left">
+						<ul id="stars">
+						  <li id="azaa" class="star" data-value="1"> <i class="fa fa-star fa-fw"></i> </li>
+						  <li id="azbb" class="star" data-value="2"> <i class="fa fa-star fa-fw"></i> </li>
+						  <li id="azcc" class="star" data-value="3"> <i class="fa fa-star fa-fw"></i> </li>
+						  <li id="azdd" class="star" data-value="4"> <i class="fa fa-star fa-fw"></i> </li>
+						  <li id="azee" class="star" data-value="5"> <i class="fa fa-star fa-fw"></i> </li>
+						</ul>
+					</div>		
+
+
+
+                    <hr>
+                    <h3>Rəy yaz</h3>
+
+                    {% if user.is_authenticated %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-primary">Göndər</button>
+                        </form>
+                    {% else %}
+                        <p>Rəy yazmaq üçün <a href="{% url 'login' %}">daxil olun</a>.</p>
+                    {% endif %}
+                    <hr>
+
+                    <h3>Rəylər:</h3>
+
+                    <div class="border p-2 mb-2">
+                        {% for c in comments %}
+                            <hr>
+                            <b>{{ c.user.username }}</b>:
+                            <p>{{ c.comment }}</p>
+                            <small>{{ c.created_date }}</small>
+
+                            {% if user.is_authenticated and user == c.user %} <!-- Yalnız öz kommenti üçün Sil düyməsi -->
+                                <a href="{% url 'delete_comment' c.id %}" class="btn btn-danger">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            {% endif %}
+                            <hr>
+                        {% empty %}
+                            <p>Bu kitab üçün hələ rəy yoxdur.</p>
+                        {% endfor %}
+                    </div>
+{% endblock %}
+
+

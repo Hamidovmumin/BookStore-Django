@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-8 text-start">
+        <div class="cart_info">
+            <table class="table table-hover">
+                <thead class="text-center">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" style="width: 250px">Name</th>
+                    <th scope="col" style="width: 250px">Qty</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+
+                {#--------- Elave olunan mehsul bu cedvelde gorsenir----------#}
+                <tbody class="text-center">
+                {% for item in cart_items %}
+                <tr>
+                    <td class="cart_coverpage"><a href=""><img src="{{ item.product.images.url }}"></a></td>
+                    <td>{{ item.product.book_name }}</td>
+                    <td>
+                        <!-- col.// -->
+                        <div class="col">
+                            <div class="input-group input-spinner">
+                                <div class="input-group-prepend" style="color:black">
+                                    <a href="{% url 'remove_cart' item.product.id %}" class="btn btn-warning"
+                                       type="button" id="button-plus" style=""><i
+                                            class="fa fa-minus"></i></a>
+                                </div>
+
+                                <input type="text" class="form-control" value="{{item.quantity}}">
+
+                                <div class="input-group-append">
+                                    <a href="{% url 'add_cart' item.product.id %}" class="btn btn btn-warning"
+                                       type="button" id="button-minus"> <i
+                                            class="fa fa-plus"></i></a>
+                                </div>
+                            </div> <!-- input-group.// -->
+                        </div> <!-- col.// -->
+                    </td>
+                    <td id="{{ book.id }}">{{ item.product.price }} TK.</td>
+                    <td><a href="{% url 'remove_cart_item' item.product.id %}" class="btn btn-danger"><i
+                            class="fa fa-trash-o"></i></a></td>
+                </tr>
+
+                {% endfor %}
+                </tbody>
+                {#=================================================================#}
+            </table>
+            <div class="continue_or_next text-center">
+                <a href="{% url 'index' %}" class="btn _to_shope">Continue to Shope</a>
+                <a href="{% url 'order' %}" class="btn _to_continue">Proceed to Checkout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4 text-end">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center"><h4>Checkout Summary</h4></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Books  <span>{{cart_count_template}}</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Subtotal<span>{{ total }} TK.</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Tax<span>{{ tax }} TK.</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Payable Total<span> {{ cemi }} TK.</span></li>
+        </ul>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        summary();
+
+    });
+    function summary(){
+        $.ajax({
+            url : "summary",
+            type : "GET",
+            success : function(data){
+                $("#abc").html(data);
+            }
+        })
+    }
+    function updateCartItem(obj,id){
+        $.ajax({
+            url: "update/"+id+"/"+obj.value,
+            type: "GET",
+            data: {
+                bookid: id,
+                quantity: obj.value
+            },
+            success	:function(data){
+                $("#"+(id.toString())).html(data);
+                summary();
+                totalCart();
+            }
+        })
+    }
+
+</script>
+{% endblock %}

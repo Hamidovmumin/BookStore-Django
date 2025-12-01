@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: DejaVu Sans, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        h2 { text-align: center; }
+    </style>
+</head>
+<body>
+<hr>
+<h2>Müştəri məlumatları:</h2>
+<table>
+     <tr>
+         <th>Order ID</th>
+         <th>Name</th>
+         <th>Email</th>
+         <th>Account No</th>
+         <th>Payment Method</th>
+    </tr>
+
+    <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.name }}</td>
+        <td>{{ order.email }}</td>
+        <td>{{ order.account_no }}</td>
+        <td>{{ order.payment_method }}</td>
+    </tr>
+</table>
+
+<table>
+     <tr>
+         <th>Phone</th>
+         <th>Total</th>
+         <th>Books</th>
+         <th>Shipping address</th>
+    </tr>
+
+    <tr>
+        <td>{{ order.phone }}</td>
+        <td>{{ order.payable }}</td>
+        <td>{{ order.totalbook }}</td>
+        <td>{{ order.division }}:{{ order.zip_code }}, {{ order.district }}, {{ order.address }}</td>
+    </tr>
+</table>
+<hr><hr>
+
+<h2>Products</h2>
+<table>
+    <tr>
+        <th>Book</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+    </tr>
+
+    {% for item in items %}
+    <tr>
+        <td>{{ item.book.book_name }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.get_total|floatformat:2 }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="4" style="text-align:center; color:blue"><strong>Ümumi cəm: {{ order.get_total_cost }}</strong></td>
+    </tr>
+</table>
+
+</body>
+</html>

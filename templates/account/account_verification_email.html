@@ -1,0 +1,8 @@
+{% autoescape off %}
+Salam {{ user.username }},
+Zəhmət olmasa hesabınızı aktivləşdirmək üçün bu linkə klikləyin:
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Əgər bu əməliyyatı siz etməmisinizsə, bu mesajı nəzərə almayın.
+{% endautoescape %}

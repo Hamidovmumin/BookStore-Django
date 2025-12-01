@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="view-details">
+								<img src="{{ wrt.pic.url }}">
+							</div>
+						</div>
+
+						<div class="col-sm-8">
+							<div class="product-information">
+								<h3></h3>
+								<article class="text-justify" style="margin-top:10px;">{{ wrt.bio }}</article>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-12">
+					<div class="titleheader">
+						<h3 class="h2header text-center">Published Books</h3>
+					</div>
+					<div class="regulara sliderzx">
+                        {% for book in books %}
+						<div class="book-wrapper text-center">
+							<div class="coverpage">
+								<img src="{{ book.images.url }}"/>
+							</div>
+							<a href="">{{ book.book_name }}</a>
+							<a href="">{{ book.writer }}</a>
+							<div class="rating">
+
+								<span class="totalrating">{{ item.totalreview|add:-1 }}</span>
+							</div>
+							<p> {{ book.price }} $</p>
+							<button class="btn btn-warning" id="addTocart" data-book-id="{{ item.id }}">
+									<i class="fa fa-shopping-cart"></i>Add to cart
+								</button>
+						</div>
+                        {% endfor %}
+					</div>
+				</div>
+			</div>
+{% endblock %}

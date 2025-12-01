@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Book Store Sign In</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+
+<div class="container">
+	<div class="row justify-content-md-center">
+		<div class="col-md-4 col-sm-3">
+			<div class="signin-form">
+
+				<h3> Sign In</h3>	
+				<form action="" method="POST" class="auth-validate-form">
+					{% csrf_token %}
+					<div class="form-group">
+					   <label>E-mail</label>
+					   <input type="text" name="email" class="form-control">
+					</div>
+					<div class="form-group">
+					   <label>Password</label>
+					   <input type="password" name="password" class="form-control">
+					</div>
+					<button class="btn btn-warning">Login</button>
+				</form>
+				<a href="{% url 'forgotPassword' %}">Forgot your password?</a>
+				<div class="a-divider-break"><h5>New to BookStore?</h5></div>
+				<a class="btn btn-default" href="{% url 'registration' %}">Create you BookStore account</a>
+			</div> 
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

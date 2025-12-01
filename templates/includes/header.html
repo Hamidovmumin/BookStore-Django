@@ -1,0 +1,56 @@
+{% load static %}
+<div class="header-top">
+	<div class="container-fluid">
+		<div class="row">
+            {# ----------- Sekil hissesi ---------------#}
+			<div class="col-sm-3">
+				<div class="pull-left">
+					<a href="{% url 'index' %}"><img src="{% static 'images/logo/logo.png' %}" alt="" /></a>
+				</div>
+			</div>
+            {#--------------------------------#}
+
+            {#------------------------------------------- Axtaris ----------------------------------- #}
+			<div class="col-sm-5">
+				<form action="#" method="GET">
+					<div class="input-group search_box">
+						<input type="text" class="form-control" placeholder="Search Book" name="q" value="{{search}}">
+						<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+					</div>
+				</form>
+			</div>
+            {#----------------------------------#}
+
+			<div class="col-sm-4">
+				<div class="pull-right">
+					<ul class="navbar-nav">
+                        {% if request.user.is_authenticated %}
+                            <li class="dropdown profile"><a href="#">Hi {{ request.user.username }}</a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="#' %}"><i class="fa fa-shopping-cart"></i> My order</a></li>
+                                    <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Sing Out</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="cart">
+                                <a href="{% url 'cart' %}">Cart <i class="fa fa-angle-left"></i>
+                                    <span class="totalcart" id="gettotalcart"> {{ cart_count_template }} </span>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+
+					    {% else %}
+					    <li class="profile"><a href="{% url 'login' %}">Sign In</a><a href="{% url 'registration' %}">/Register</a></li>
+					    <li class="cart">
+					    	<a href="{% url 'cart' %}">Cart <i class="fa fa-angle-left"></i>
+					    		<span class="totalcart" id="gettotalcart"> {{ cart_count_template }} </span>
+					    		<i class="fa fa-angle-right"></i>
+					    	</a>
+					    </li>
+					    {% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
